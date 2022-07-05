@@ -1,0 +1,5 @@
+package com.generation.eFarmacia.model;
+
+public class Produto {
+
+}

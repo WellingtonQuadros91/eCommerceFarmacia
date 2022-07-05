@@ -1,0 +1,12 @@
+package com.generation.eFarmacia.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.generation.eFarmacia.model.Produtos;
+
+public interface ProdutosReposotory extends JpaRepository<Produtos, Long>{
+	public List<Produtos> findAllByNomeContainingIgnoreCase(("nome") String nome);
+}
+}
