@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -33,9 +33,9 @@ public class Produtos {
 		
 		private Date Validade;
 		
-		@OneToMany(mappedBy = "categorias", cascade = CascadeType.ALL)
+		@ManyToOne
 		@JsonIgnoreProperties("produtos")
-		private List<Categorias> categoria;
+		private Categorias categorias;
 		
 		public long getId() {
 			return id;
@@ -77,11 +77,12 @@ public class Produtos {
 			Validade = validade;
 		}
 
-		public List<Categorias> getCategoria() {
-			return categoria;
+		public Categorias getCategorias() {
+			return categorias;
 		}
 
-		public void setCategoria(List<Categorias> categoria) {
-			this.categoria = categoria;
-		}		
+		public void setCategorias(Categorias categorias) {
+			this.categorias = categorias;
+		}
+
 }
