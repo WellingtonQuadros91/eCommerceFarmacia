@@ -2,7 +2,6 @@ package com.generation.eFarmacia.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 
 import javax.persistence.Entity;

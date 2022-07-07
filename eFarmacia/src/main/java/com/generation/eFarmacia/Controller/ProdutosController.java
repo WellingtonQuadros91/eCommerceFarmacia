@@ -51,14 +51,23 @@ public class ProdutosController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Produtos> atualizarTema (@Valid @RequestBody Produtos produtos){
-		return ResponseEntity.status(HttpStatus.OK).body(produtosRepository.save(produtos));
+	public ResponseEntity<Produtos> Put (@Valid @RequestBody Produtos produtos){
+		
+		return produtosRepository.findById(produtos.getId())
+		.map(resposta -> {
+			return ResponseEntity.ok().body(produtosRepository.save(produtos));
+		})
+		.orElse(ResponseEntity.notFound().build());
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable long id) {
-		produtosRepository.deleteById(id);
+	public ResponseEntity<?> deleteProudutos(@PathVariable Long id){
+		return produtosRepository.findById(id)
+				.map(resposta ->{
+					produtosRepository.deleteById(id);
+					return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+				})
+				.orElse(ResponseEntity.notFound().build());
 	}
 }
-
 

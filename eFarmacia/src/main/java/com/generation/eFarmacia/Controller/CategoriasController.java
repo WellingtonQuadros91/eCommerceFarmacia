@@ -2,6 +2,8 @@ package com.generation.eFarmacia.Controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.eFarmacia.Repository.CategoriasRepository;
 import com.generation.eFarmacia.model.Categorias;
+
 
 @RestController
 @RequestMapping("/categorias")
@@ -49,13 +52,24 @@ public class CategoriasController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Categorias> PUTCategorias (@RequestBody Categorias categorias){
-		return ResponseEntity.status(HttpStatus.OK).body(categoriasRepository.save(categorias));
+	public ResponseEntity<Categorias> Put (@Valid @RequestBody Categorias categorias){
+		
+		return categoriasRepository.findById(categorias.getId())
+		.map(resposta -> {
+			return ResponseEntity.ok().body(categoriasRepository.save(categorias));
+		})
+		.orElse(ResponseEntity.notFound().build());
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable long id) {
-		categoriasRepository.deleteById(id);
+	public ResponseEntity<?> deleteCategorias(@PathVariable Long id){
+		return categoriasRepository.findById(id)
+				.map(resposta ->{
+					categoriasRepository.deleteById(id);
+					return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+				})
+				.orElse(ResponseEntity.notFound().build());
 	}
 }
+
 
